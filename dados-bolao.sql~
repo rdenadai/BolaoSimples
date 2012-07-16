@@ -1,0 +1,1822 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.1.3
+-- Dumped by pg_dump version 9.1.3
+-- Started on 2012-05-30 13:58:49 BRT
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 190 (class 3079 OID 11682)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2086 (class 0 OID 0)
+-- Dependencies: 190
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 187 (class 1259 OID 37064)
+-- Dependencies: 5
+-- Name: aposta; Type: TABLE; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE TABLE aposta (
+    id integer NOT NULL,
+    jogo_id integer NOT NULL,
+    usuario_id integer NOT NULL,
+    primeirotime integer NOT NULL,
+    segundotime integer NOT NULL,
+    data date NOT NULL,
+    pontos integer
+);
+
+
+ALTER TABLE public.aposta OWNER TO bolao;
+
+--
+-- TOC entry 186 (class 1259 OID 37062)
+-- Dependencies: 187 5
+-- Name: aposta_id_seq; Type: SEQUENCE; Schema: public; Owner: bolao
+--
+
+CREATE SEQUENCE aposta_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.aposta_id_seq OWNER TO bolao;
+
+--
+-- TOC entry 2087 (class 0 OID 0)
+-- Dependencies: 186
+-- Name: aposta_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bolao
+--
+
+ALTER SEQUENCE aposta_id_seq OWNED BY aposta.id;
+
+
+--
+-- TOC entry 2088 (class 0 OID 0)
+-- Dependencies: 186
+-- Name: aposta_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bolao
+--
+
+SELECT pg_catalog.setval('aposta_id_seq', 114, true);
+
+
+--
+-- TOC entry 166 (class 1259 OID 36913)
+-- Dependencies: 5
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE TABLE auth_group (
+    id integer NOT NULL,
+    name character varying(80) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO bolao;
+
+--
+-- TOC entry 165 (class 1259 OID 36911)
+-- Dependencies: 5 166
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: bolao
+--
+
+CREATE SEQUENCE auth_group_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO bolao;
+
+--
+-- TOC entry 2089 (class 0 OID 0)
+-- Dependencies: 165
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bolao
+--
+
+ALTER SEQUENCE auth_group_id_seq OWNED BY auth_group.id;
+
+
+--
+-- TOC entry 2090 (class 0 OID 0)
+-- Dependencies: 165
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bolao
+--
+
+SELECT pg_catalog.setval('auth_group_id_seq', 1, false);
+
+
+--
+-- TOC entry 164 (class 1259 OID 36898)
+-- Dependencies: 5
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE TABLE auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO bolao;
+
+--
+-- TOC entry 163 (class 1259 OID 36896)
+-- Dependencies: 5 164
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: bolao
+--
+
+CREATE SEQUENCE auth_group_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO bolao;
+
+--
+-- TOC entry 2091 (class 0 OID 0)
+-- Dependencies: 163
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bolao
+--
+
+ALTER SEQUENCE auth_group_permissions_id_seq OWNED BY auth_group_permissions.id;
+
+
+--
+-- TOC entry 2092 (class 0 OID 0)
+-- Dependencies: 163
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bolao
+--
+
+SELECT pg_catalog.setval('auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- TOC entry 162 (class 1259 OID 36888)
+-- Dependencies: 5
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE TABLE auth_permission (
+    id integer NOT NULL,
+    name character varying(50) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO bolao;
+
+--
+-- TOC entry 161 (class 1259 OID 36886)
+-- Dependencies: 162 5
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: bolao
+--
+
+CREATE SEQUENCE auth_permission_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO bolao;
+
+--
+-- TOC entry 2093 (class 0 OID 0)
+-- Dependencies: 161
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bolao
+--
+
+ALTER SEQUENCE auth_permission_id_seq OWNED BY auth_permission.id;
+
+
+--
+-- TOC entry 2094 (class 0 OID 0)
+-- Dependencies: 161
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bolao
+--
+
+SELECT pg_catalog.setval('auth_permission_id_seq', 36, true);
+
+
+--
+-- TOC entry 172 (class 1259 OID 36958)
+-- Dependencies: 5
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE TABLE auth_user (
+    id integer NOT NULL,
+    username character varying(30) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(30) NOT NULL,
+    email character varying(75) NOT NULL,
+    password character varying(128) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    is_superuser boolean NOT NULL,
+    last_login timestamp with time zone NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO bolao;
+
+--
+-- TOC entry 170 (class 1259 OID 36943)
+-- Dependencies: 5
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE TABLE auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO bolao;
+
+--
+-- TOC entry 169 (class 1259 OID 36941)
+-- Dependencies: 170 5
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: bolao
+--
+
+CREATE SEQUENCE auth_user_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO bolao;
+
+--
+-- TOC entry 2095 (class 0 OID 0)
+-- Dependencies: 169
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bolao
+--
+
+ALTER SEQUENCE auth_user_groups_id_seq OWNED BY auth_user_groups.id;
+
+
+--
+-- TOC entry 2096 (class 0 OID 0)
+-- Dependencies: 169
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bolao
+--
+
+SELECT pg_catalog.setval('auth_user_groups_id_seq', 1, false);
+
+
+--
+-- TOC entry 171 (class 1259 OID 36956)
+-- Dependencies: 5 172
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: bolao
+--
+
+CREATE SEQUENCE auth_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO bolao;
+
+--
+-- TOC entry 2097 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bolao
+--
+
+ALTER SEQUENCE auth_user_id_seq OWNED BY auth_user.id;
+
+
+--
+-- TOC entry 2098 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bolao
+--
+
+SELECT pg_catalog.setval('auth_user_id_seq', 1, false);
+
+
+--
+-- TOC entry 168 (class 1259 OID 36928)
+-- Dependencies: 5
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE TABLE auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO bolao;
+
+--
+-- TOC entry 167 (class 1259 OID 36926)
+-- Dependencies: 168 5
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: bolao
+--
+
+CREATE SEQUENCE auth_user_user_permissions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO bolao;
+
+--
+-- TOC entry 2099 (class 0 OID 0)
+-- Dependencies: 167
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bolao
+--
+
+ALTER SEQUENCE auth_user_user_permissions_id_seq OWNED BY auth_user_user_permissions.id;
+
+
+--
+-- TOC entry 2100 (class 0 OID 0)
+-- Dependencies: 167
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bolao
+--
+
+SELECT pg_catalog.setval('auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- TOC entry 181 (class 1259 OID 37020)
+-- Dependencies: 5
+-- Name: campeonato; Type: TABLE; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE TABLE campeonato (
+    id integer NOT NULL,
+    nome character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.campeonato OWNER TO bolao;
+
+--
+-- TOC entry 180 (class 1259 OID 37018)
+-- Dependencies: 181 5
+-- Name: campeonato_id_seq; Type: SEQUENCE; Schema: public; Owner: bolao
+--
+
+CREATE SEQUENCE campeonato_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.campeonato_id_seq OWNER TO bolao;
+
+--
+-- TOC entry 2101 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: campeonato_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bolao
+--
+
+ALTER SEQUENCE campeonato_id_seq OWNED BY campeonato.id;
+
+
+--
+-- TOC entry 2102 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: campeonato_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bolao
+--
+
+SELECT pg_catalog.setval('campeonato_id_seq', 8, true);
+
+
+--
+-- TOC entry 189 (class 1259 OID 37082)
+-- Dependencies: 1990 5
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE TABLE django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    user_id integer NOT NULL,
+    content_type_id integer,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO bolao;
+
+--
+-- TOC entry 188 (class 1259 OID 37080)
+-- Dependencies: 189 5
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: bolao
+--
+
+CREATE SEQUENCE django_admin_log_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO bolao;
+
+--
+-- TOC entry 2103 (class 0 OID 0)
+-- Dependencies: 188
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bolao
+--
+
+ALTER SEQUENCE django_admin_log_id_seq OWNED BY django_admin_log.id;
+
+
+--
+-- TOC entry 2104 (class 0 OID 0)
+-- Dependencies: 188
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bolao
+--
+
+SELECT pg_catalog.setval('django_admin_log_id_seq', 42, true);
+
+
+--
+-- TOC entry 174 (class 1259 OID 36978)
+-- Dependencies: 5
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE TABLE django_content_type (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO bolao;
+
+--
+-- TOC entry 173 (class 1259 OID 36976)
+-- Dependencies: 174 5
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: bolao
+--
+
+CREATE SEQUENCE django_content_type_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO bolao;
+
+--
+-- TOC entry 2105 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bolao
+--
+
+ALTER SEQUENCE django_content_type_id_seq OWNED BY django_content_type.id;
+
+
+--
+-- TOC entry 2106 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bolao
+--
+
+SELECT pg_catalog.setval('django_content_type_id_seq', 12, true);
+
+
+--
+-- TOC entry 175 (class 1259 OID 36991)
+-- Dependencies: 5
+-- Name: django_session; Type: TABLE; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE TABLE django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO bolao;
+
+--
+-- TOC entry 177 (class 1259 OID 37001)
+-- Dependencies: 5
+-- Name: django_site; Type: TABLE; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE TABLE django_site (
+    id integer NOT NULL,
+    domain character varying(100) NOT NULL,
+    name character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public.django_site OWNER TO bolao;
+
+--
+-- TOC entry 176 (class 1259 OID 36999)
+-- Dependencies: 177 5
+-- Name: django_site_id_seq; Type: SEQUENCE; Schema: public; Owner: bolao
+--
+
+CREATE SEQUENCE django_site_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_site_id_seq OWNER TO bolao;
+
+--
+-- TOC entry 2107 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: django_site_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bolao
+--
+
+ALTER SEQUENCE django_site_id_seq OWNED BY django_site.id;
+
+
+--
+-- TOC entry 2108 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: django_site_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bolao
+--
+
+SELECT pg_catalog.setval('django_site_id_seq', 1, true);
+
+
+--
+-- TOC entry 183 (class 1259 OID 37028)
+-- Dependencies: 5
+-- Name: jogo; Type: TABLE; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE TABLE jogo (
+    id integer NOT NULL,
+    primeirotime_id integer,
+    resultadoprimeirotime integer,
+    segundotime_id integer,
+    resultadosegundotime integer,
+    data date NOT NULL,
+    calculado boolean NOT NULL,
+    campeonato_id integer,
+    datajogo date
+);
+
+
+ALTER TABLE public.jogo OWNER TO bolao;
+
+--
+-- TOC entry 182 (class 1259 OID 37026)
+-- Dependencies: 5 183
+-- Name: jogo_id_seq; Type: SEQUENCE; Schema: public; Owner: bolao
+--
+
+CREATE SEQUENCE jogo_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.jogo_id_seq OWNER TO bolao;
+
+--
+-- TOC entry 2109 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: jogo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bolao
+--
+
+ALTER SEQUENCE jogo_id_seq OWNED BY jogo.id;
+
+
+--
+-- TOC entry 2110 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: jogo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bolao
+--
+
+SELECT pg_catalog.setval('jogo_id_seq', 16, true);
+
+
+--
+-- TOC entry 179 (class 1259 OID 37009)
+-- Dependencies: 5
+-- Name: time; Type: TABLE; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE TABLE "time" (
+    id integer NOT NULL,
+    nome character varying(255) NOT NULL,
+    brasao character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public."time" OWNER TO bolao;
+
+--
+-- TOC entry 178 (class 1259 OID 37007)
+-- Dependencies: 179 5
+-- Name: time_id_seq; Type: SEQUENCE; Schema: public; Owner: bolao
+--
+
+CREATE SEQUENCE time_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.time_id_seq OWNER TO bolao;
+
+--
+-- TOC entry 2111 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: time_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bolao
+--
+
+ALTER SEQUENCE time_id_seq OWNED BY "time".id;
+
+
+--
+-- TOC entry 2112 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: time_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bolao
+--
+
+SELECT pg_catalog.setval('time_id_seq', 32, true);
+
+
+--
+-- TOC entry 185 (class 1259 OID 37051)
+-- Dependencies: 5
+-- Name: usuario; Type: TABLE; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE TABLE usuario (
+    id integer NOT NULL,
+    nome character varying(255) NOT NULL,
+    login character varying(255) NOT NULL,
+    senha character varying(32) NOT NULL,
+    ranking integer NOT NULL
+);
+
+
+ALTER TABLE public.usuario OWNER TO bolao;
+
+--
+-- TOC entry 184 (class 1259 OID 37049)
+-- Dependencies: 5 185
+-- Name: usuario_id_seq; Type: SEQUENCE; Schema: public; Owner: bolao
+--
+
+CREATE SEQUENCE usuario_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.usuario_id_seq OWNER TO bolao;
+
+--
+-- TOC entry 2113 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: usuario_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bolao
+--
+
+ALTER SEQUENCE usuario_id_seq OWNED BY usuario.id;
+
+
+--
+-- TOC entry 2114 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: usuario_id_seq; Type: SEQUENCE SET; Schema: public; Owner: bolao
+--
+
+SELECT pg_catalog.setval('usuario_id_seq', 11, true);
+
+
+--
+-- TOC entry 1988 (class 2604 OID 37067)
+-- Dependencies: 186 187 187
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY aposta ALTER COLUMN id SET DEFAULT nextval('aposta_id_seq'::regclass);
+
+
+--
+-- TOC entry 1978 (class 2604 OID 36916)
+-- Dependencies: 165 166 166
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY auth_group ALTER COLUMN id SET DEFAULT nextval('auth_group_id_seq'::regclass);
+
+
+--
+-- TOC entry 1977 (class 2604 OID 36901)
+-- Dependencies: 163 164 164
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- TOC entry 1976 (class 2604 OID 36891)
+-- Dependencies: 162 161 162
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY auth_permission ALTER COLUMN id SET DEFAULT nextval('auth_permission_id_seq'::regclass);
+
+
+--
+-- TOC entry 1981 (class 2604 OID 36961)
+-- Dependencies: 171 172 172
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY auth_user ALTER COLUMN id SET DEFAULT nextval('auth_user_id_seq'::regclass);
+
+
+--
+-- TOC entry 1980 (class 2604 OID 36946)
+-- Dependencies: 169 170 170
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY auth_user_groups ALTER COLUMN id SET DEFAULT nextval('auth_user_groups_id_seq'::regclass);
+
+
+--
+-- TOC entry 1979 (class 2604 OID 36931)
+-- Dependencies: 167 168 168
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- TOC entry 1985 (class 2604 OID 37023)
+-- Dependencies: 181 180 181
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY campeonato ALTER COLUMN id SET DEFAULT nextval('campeonato_id_seq'::regclass);
+
+
+--
+-- TOC entry 1989 (class 2604 OID 37085)
+-- Dependencies: 188 189 189
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY django_admin_log ALTER COLUMN id SET DEFAULT nextval('django_admin_log_id_seq'::regclass);
+
+
+--
+-- TOC entry 1982 (class 2604 OID 36981)
+-- Dependencies: 173 174 174
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY django_content_type ALTER COLUMN id SET DEFAULT nextval('django_content_type_id_seq'::regclass);
+
+
+--
+-- TOC entry 1983 (class 2604 OID 37004)
+-- Dependencies: 177 176 177
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY django_site ALTER COLUMN id SET DEFAULT nextval('django_site_id_seq'::regclass);
+
+
+--
+-- TOC entry 1986 (class 2604 OID 37031)
+-- Dependencies: 182 183 183
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY jogo ALTER COLUMN id SET DEFAULT nextval('jogo_id_seq'::regclass);
+
+
+--
+-- TOC entry 1984 (class 2604 OID 37012)
+-- Dependencies: 178 179 179
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY "time" ALTER COLUMN id SET DEFAULT nextval('time_id_seq'::regclass);
+
+
+--
+-- TOC entry 1987 (class 2604 OID 37054)
+-- Dependencies: 185 184 185
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY usuario ALTER COLUMN id SET DEFAULT nextval('usuario_id_seq'::regclass);
+
+
+--
+-- TOC entry 2079 (class 0 OID 37064)
+-- Dependencies: 187
+-- Data for Name: aposta; Type: TABLE DATA; Schema: public; Owner: bolao
+--
+
+INSERT INTO aposta VALUES (1, 3, 8, 1, 1, '2012-05-21', 2);
+INSERT INTO aposta VALUES (4, 3, 5, 2, 2, '2012-05-21', 0);
+INSERT INTO aposta VALUES (7, 3, 9, 2, 1, '2012-05-21', 5);
+INSERT INTO aposta VALUES (14, 3, 1, 2, 1, '2012-05-21', 5);
+INSERT INTO aposta VALUES (21, 3, 6, 2, 1, '2012-05-21', 5);
+INSERT INTO aposta VALUES (26, 3, 2, 1, 1, '2012-05-21', 2);
+INSERT INTO aposta VALUES (31, 3, 4, 2, 2, '2012-05-21', 0);
+INSERT INTO aposta VALUES (5, 4, 5, 2, 1, '2012-05-21', 2);
+INSERT INTO aposta VALUES (9, 4, 9, 1, 1, '2012-05-21', 9);
+INSERT INTO aposta VALUES (15, 4, 1, 2, 1, '2012-05-21', 2);
+INSERT INTO aposta VALUES (19, 4, 8, 1, 0, '2012-05-21', 2);
+INSERT INTO aposta VALUES (22, 4, 6, 1, 2, '2012-05-21', 2);
+INSERT INTO aposta VALUES (27, 4, 2, 2, 1, '2012-05-21', 2);
+INSERT INTO aposta VALUES (32, 4, 4, 1, 1, '2012-05-21', 9);
+INSERT INTO aposta VALUES (3, 6, 8, 2, 1, '2012-05-21', 7);
+INSERT INTO aposta VALUES (8, 6, 5, 1, 1, '2012-05-21', 0);
+INSERT INTO aposta VALUES (12, 6, 9, 1, 2, '2012-05-21', 0);
+INSERT INTO aposta VALUES (17, 6, 1, 2, 2, '2012-05-21', 2);
+INSERT INTO aposta VALUES (24, 6, 6, 0, 2, '2012-05-21', 0);
+INSERT INTO aposta VALUES (29, 6, 2, 0, 1, '2012-05-21', 0);
+INSERT INTO aposta VALUES (34, 6, 4, 2, 1, '2012-05-21', 7);
+INSERT INTO aposta VALUES (10, 7, 5, 1, 2, '2012-05-21', 2);
+INSERT INTO aposta VALUES (13, 7, 9, 1, 1, '2012-05-21', 5);
+INSERT INTO aposta VALUES (18, 7, 1, 1, 2, '2012-05-21', 2);
+INSERT INTO aposta VALUES (20, 7, 8, 0, 1, '2012-05-21', 0);
+INSERT INTO aposta VALUES (25, 7, 6, 0, 2, '2012-05-21', 2);
+INSERT INTO aposta VALUES (30, 7, 2, 0, 0, '2012-05-21', 5);
+INSERT INTO aposta VALUES (35, 7, 4, 2, 2, '2012-05-21', 9);
+INSERT INTO aposta VALUES (36, 8, 8, 2, 1, '2012-05-22', 7);
+INSERT INTO aposta VALUES (37, 8, 5, 2, 0, '2012-05-22', 9);
+INSERT INTO aposta VALUES (38, 8, 2, 3, 0, '2012-05-22', 7);
+INSERT INTO aposta VALUES (39, 8, 9, 2, 1, '2012-05-22', 7);
+INSERT INTO aposta VALUES (40, 8, 1, 2, 2, '2012-05-22', 2);
+INSERT INTO aposta VALUES (41, 8, 4, 2, 1, '2012-05-22', 7);
+INSERT INTO aposta VALUES (42, 8, 6, 2, 0, '2012-05-22', 9);
+INSERT INTO aposta VALUES (43, 8, 3, 1, 2, '2012-05-24', 0);
+INSERT INTO aposta VALUES (2, 5, 8, 2, 0, '2012-05-21', 7);
+INSERT INTO aposta VALUES (6, 5, 5, 3, 0, '2012-05-21', 7);
+INSERT INTO aposta VALUES (11, 5, 9, 3, 1, '2012-05-21', 5);
+INSERT INTO aposta VALUES (16, 5, 1, 2, 0, '2012-05-21', 7);
+INSERT INTO aposta VALUES (23, 5, 6, 3, 1, '2012-05-21', 5);
+INSERT INTO aposta VALUES (28, 5, 2, 4, 0, '2012-05-21', 7);
+INSERT INTO aposta VALUES (33, 5, 4, 3, 0, '2012-05-21', 7);
+INSERT INTO aposta VALUES (44, 5, 3, 0, 0, '2012-05-24', 2);
+INSERT INTO aposta VALUES (46, 1, 5, 1, 2, '2012-05-25', 0);
+INSERT INTO aposta VALUES (50, 1, 8, 0, 1, '2012-05-25', 0);
+INSERT INTO aposta VALUES (71, 1, 2, 1, 2, '2012-05-25', 0);
+INSERT INTO aposta VALUES (73, 1, 9, 1, 2, '2012-05-25', 0);
+INSERT INTO aposta VALUES (74, 1, 3, 1, 1, '2012-05-25', 5);
+INSERT INTO aposta VALUES (76, 1, 1, 1, 3, '2012-05-25', 2);
+INSERT INTO aposta VALUES (88, 1, 4, 1, 3, '2012-05-25', 2);
+INSERT INTO aposta VALUES (47, 2, 5, 2, 1, '2012-05-25', 0);
+INSERT INTO aposta VALUES (54, 2, 8, 2, 0, '2012-05-25', 2);
+INSERT INTO aposta VALUES (67, 2, 2, 2, 0, '2012-05-25', 2);
+INSERT INTO aposta VALUES (72, 2, 9, 2, 0, '2012-05-25', 2);
+INSERT INTO aposta VALUES (75, 2, 3, 2, 1, '2012-05-25', 0);
+INSERT INTO aposta VALUES (77, 2, 1, 4, 1, '2012-05-25', 0);
+INSERT INTO aposta VALUES (89, 2, 4, 2, 0, '2012-05-25', 2);
+INSERT INTO aposta VALUES (48, 10, 5, 4, 0, '2012-05-25', 7);
+INSERT INTO aposta VALUES (53, 10, 2, 3, 0, '2012-05-25', 7);
+INSERT INTO aposta VALUES (56, 10, 8, 3, 0, '2012-05-25', 7);
+INSERT INTO aposta VALUES (70, 10, 9, 2, 1, '2012-05-25', 5);
+INSERT INTO aposta VALUES (78, 10, 3, 2, 0, '2012-05-25', 7);
+INSERT INTO aposta VALUES (79, 10, 1, 2, 2, '2012-05-25', 0);
+INSERT INTO aposta VALUES (90, 10, 4, 1, 0, '2012-05-25', 9);
+INSERT INTO aposta VALUES (49, 11, 5, 2, 0, '2012-05-25', 7);
+INSERT INTO aposta VALUES (55, 11, 2, 1, 0, '2012-05-25', 9);
+INSERT INTO aposta VALUES (58, 11, 8, 1, 1, '2012-05-25', 2);
+INSERT INTO aposta VALUES (69, 11, 9, 3, 1, '2012-05-25', 5);
+INSERT INTO aposta VALUES (80, 11, 3, 1, 1, '2012-05-25', 2);
+INSERT INTO aposta VALUES (81, 11, 1, 2, 1, '2012-05-25', 5);
+INSERT INTO aposta VALUES (91, 11, 4, 2, 1, '2012-05-25', 5);
+INSERT INTO aposta VALUES (51, 12, 5, 2, 0, '2012-05-25', 7);
+INSERT INTO aposta VALUES (57, 12, 2, 1, 1, '2012-05-25', 2);
+INSERT INTO aposta VALUES (61, 12, 8, 0, 0, '2012-05-25', 2);
+INSERT INTO aposta VALUES (68, 12, 9, 2, 1, '2012-05-25', 5);
+INSERT INTO aposta VALUES (82, 12, 3, 2, 1, '2012-05-25', 5);
+INSERT INTO aposta VALUES (83, 12, 1, 2, 1, '2012-05-25', 5);
+INSERT INTO aposta VALUES (92, 12, 4, 2, 2, '2012-05-25', 0);
+INSERT INTO aposta VALUES (52, 13, 5, 2, 0, '2012-05-25', 2);
+INSERT INTO aposta VALUES (60, 13, 2, 2, 1, '2012-05-25', 0);
+INSERT INTO aposta VALUES (63, 13, 8, 2, 0, '2012-05-25', 2);
+INSERT INTO aposta VALUES (65, 13, 9, 3, 1, '2012-05-25', 0);
+INSERT INTO aposta VALUES (84, 13, 3, 1, 0, '2012-05-25', 2);
+INSERT INTO aposta VALUES (85, 13, 1, 2, 1, '2012-05-25', 0);
+INSERT INTO aposta VALUES (93, 13, 4, 2, 0, '2012-05-25', 2);
+INSERT INTO aposta VALUES (59, 14, 5, 1, 1, '2012-05-25', 2);
+INSERT INTO aposta VALUES (62, 14, 9, 1, 2, '2012-05-25', 5);
+INSERT INTO aposta VALUES (64, 14, 2, 1, 2, '2012-05-25', 5);
+INSERT INTO aposta VALUES (66, 14, 8, 0, 1, '2012-05-25', 9);
+INSERT INTO aposta VALUES (86, 14, 3, 0, 2, '2012-05-25', 7);
+INSERT INTO aposta VALUES (87, 14, 1, 1, 3, '2012-05-25', 5);
+INSERT INTO aposta VALUES (94, 14, 4, 1, 2, '2012-05-25', 5);
+INSERT INTO aposta VALUES (96, 16, 8, 2, 1, '2012-05-29', NULL);
+INSERT INTO aposta VALUES (97, 16, 1, 2, 2, '2012-05-29', NULL);
+INSERT INTO aposta VALUES (100, 16, 3, 2, 1, '2012-05-29', NULL);
+INSERT INTO aposta VALUES (101, 16, 5, 1, 1, '2012-05-29', NULL);
+INSERT INTO aposta VALUES (103, 16, 11, 2, 0, '2012-05-29', NULL);
+INSERT INTO aposta VALUES (105, 16, 4, 2, 0, '2012-05-29', NULL);
+INSERT INTO aposta VALUES (107, 16, 2, 1, 0, '2012-05-29', NULL);
+INSERT INTO aposta VALUES (108, 16, 9, 1, 3, '2012-05-29', NULL);
+INSERT INTO aposta VALUES (111, 16, 6, 2, 0, '2012-05-29', NULL);
+INSERT INTO aposta VALUES (113, 16, 7, 2, 0, '2012-05-29', NULL);
+INSERT INTO aposta VALUES (95, 15, 8, 1, 1, '2012-05-29', 0);
+INSERT INTO aposta VALUES (98, 15, 1, 0, 0, '2012-05-29', 2);
+INSERT INTO aposta VALUES (99, 15, 3, 6, 0, '2012-05-29', 7);
+INSERT INTO aposta VALUES (102, 15, 5, 2, 0, '2012-05-29', 9);
+INSERT INTO aposta VALUES (104, 15, 11, 1, 1, '2012-05-29', 0);
+INSERT INTO aposta VALUES (106, 15, 4, 1, 2, '2012-05-29', 0);
+INSERT INTO aposta VALUES (109, 15, 2, 1, 0, '2012-05-29', 7);
+INSERT INTO aposta VALUES (110, 15, 9, 1, 0, '2012-05-29', 7);
+INSERT INTO aposta VALUES (112, 15, 6, 1, 2, '2012-05-29', 0);
+INSERT INTO aposta VALUES (114, 15, 7, 0, 1, '2012-05-29', 0);
+
+
+--
+-- TOC entry 2068 (class 0 OID 36913)
+-- Dependencies: 166
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: bolao
+--
+
+
+
+--
+-- TOC entry 2067 (class 0 OID 36898)
+-- Dependencies: 164
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: bolao
+--
+
+
+
+--
+-- TOC entry 2066 (class 0 OID 36888)
+-- Dependencies: 162
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: bolao
+--
+
+INSERT INTO auth_permission VALUES (1, 'Can add permission', 1, 'add_permission');
+INSERT INTO auth_permission VALUES (2, 'Can change permission', 1, 'change_permission');
+INSERT INTO auth_permission VALUES (3, 'Can delete permission', 1, 'delete_permission');
+INSERT INTO auth_permission VALUES (4, 'Can add group', 2, 'add_group');
+INSERT INTO auth_permission VALUES (5, 'Can change group', 2, 'change_group');
+INSERT INTO auth_permission VALUES (6, 'Can delete group', 2, 'delete_group');
+INSERT INTO auth_permission VALUES (7, 'Can add user', 3, 'add_user');
+INSERT INTO auth_permission VALUES (8, 'Can change user', 3, 'change_user');
+INSERT INTO auth_permission VALUES (9, 'Can delete user', 3, 'delete_user');
+INSERT INTO auth_permission VALUES (10, 'Can add content type', 4, 'add_contenttype');
+INSERT INTO auth_permission VALUES (11, 'Can change content type', 4, 'change_contenttype');
+INSERT INTO auth_permission VALUES (12, 'Can delete content type', 4, 'delete_contenttype');
+INSERT INTO auth_permission VALUES (13, 'Can add session', 5, 'add_session');
+INSERT INTO auth_permission VALUES (14, 'Can change session', 5, 'change_session');
+INSERT INTO auth_permission VALUES (15, 'Can delete session', 5, 'delete_session');
+INSERT INTO auth_permission VALUES (16, 'Can add site', 6, 'add_site');
+INSERT INTO auth_permission VALUES (17, 'Can change site', 6, 'change_site');
+INSERT INTO auth_permission VALUES (18, 'Can delete site', 6, 'delete_site');
+INSERT INTO auth_permission VALUES (19, 'Can add time', 7, 'add_time');
+INSERT INTO auth_permission VALUES (20, 'Can change time', 7, 'change_time');
+INSERT INTO auth_permission VALUES (21, 'Can delete time', 7, 'delete_time');
+INSERT INTO auth_permission VALUES (22, 'Can add campeonato', 8, 'add_campeonato');
+INSERT INTO auth_permission VALUES (23, 'Can change campeonato', 8, 'change_campeonato');
+INSERT INTO auth_permission VALUES (24, 'Can delete campeonato', 8, 'delete_campeonato');
+INSERT INTO auth_permission VALUES (25, 'Can add jogo', 9, 'add_jogo');
+INSERT INTO auth_permission VALUES (26, 'Can change jogo', 9, 'change_jogo');
+INSERT INTO auth_permission VALUES (27, 'Can delete jogo', 9, 'delete_jogo');
+INSERT INTO auth_permission VALUES (28, 'Can add usuario', 10, 'add_usuario');
+INSERT INTO auth_permission VALUES (29, 'Can change usuario', 10, 'change_usuario');
+INSERT INTO auth_permission VALUES (30, 'Can delete usuario', 10, 'delete_usuario');
+INSERT INTO auth_permission VALUES (31, 'Can add aposta', 11, 'add_aposta');
+INSERT INTO auth_permission VALUES (32, 'Can change aposta', 11, 'change_aposta');
+INSERT INTO auth_permission VALUES (33, 'Can delete aposta', 11, 'delete_aposta');
+INSERT INTO auth_permission VALUES (34, 'Can add log entry', 12, 'add_logentry');
+INSERT INTO auth_permission VALUES (35, 'Can change log entry', 12, 'change_logentry');
+INSERT INTO auth_permission VALUES (36, 'Can delete log entry', 12, 'delete_logentry');
+
+
+--
+-- TOC entry 2071 (class 0 OID 36958)
+-- Dependencies: 172
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: bolao
+--
+
+INSERT INTO auth_user VALUES (2, 'gabrigels', 'Gabriel', 'Oliveira', '', 'pbkdf2_sha256$10000$SRA4h6l5rQ5a$7G1MGgFe+nH8YtXCYjTHXIzWsGIFuGOdoHL5Gkm4UZY=', true, true, false, '2012-05-21 14:09:48.887394-03', '2012-05-21 11:49:35-03');
+INSERT INTO auth_user VALUES (1, 'rdenadai', '', '', 'rdenadai@gmail.com', 'pbkdf2_sha256$10000$WQLC2YD57d5J$1vZdj8NEZN1Bre5cSPnEPYs6lkc0cTly4v05dT5zMTg=', true, true, true, '2012-05-30 08:18:44.080242-03', '2012-05-21 11:47:44.975153-03');
+
+
+--
+-- TOC entry 2070 (class 0 OID 36943)
+-- Dependencies: 170
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: bolao
+--
+
+
+
+--
+-- TOC entry 2069 (class 0 OID 36928)
+-- Dependencies: 168
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: bolao
+--
+
+INSERT INTO auth_user_user_permissions VALUES (1, 2, 19);
+INSERT INTO auth_user_user_permissions VALUES (2, 2, 20);
+INSERT INTO auth_user_user_permissions VALUES (3, 2, 22);
+INSERT INTO auth_user_user_permissions VALUES (4, 2, 23);
+
+
+--
+-- TOC entry 2076 (class 0 OID 37020)
+-- Dependencies: 181
+-- Data for Name: campeonato; Type: TABLE DATA; Schema: public; Owner: bolao
+--
+
+INSERT INTO campeonato VALUES (3, 'Libertadores');
+INSERT INTO campeonato VALUES (4, 'Copa do Brasil');
+INSERT INTO campeonato VALUES (5, 'Brasileirão');
+INSERT INTO campeonato VALUES (6, 'Campeonato Paulista');
+INSERT INTO campeonato VALUES (7, 'Amistoso - Seleções');
+INSERT INTO campeonato VALUES (8, 'Eurocopa');
+
+
+--
+-- TOC entry 2080 (class 0 OID 37082)
+-- Dependencies: 189
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: bolao
+--
+
+INSERT INTO django_admin_log VALUES (3, '2012-05-24 09:45:38.503679-03', 1, 8, '3', 'Libertadores', 1, '');
+INSERT INTO django_admin_log VALUES (4, '2012-05-24 09:45:45.423903-03', 1, 8, '4', 'Copa do Brasil', 1, '');
+INSERT INTO django_admin_log VALUES (5, '2012-05-24 09:45:52.303126-03', 1, 8, '5', 'Brasileirão', 1, '');
+INSERT INTO django_admin_log VALUES (6, '2012-05-24 09:46:04.824289-03', 1, 12, '6', 'Campeonato Paulista', 1, '');
+INSERT INTO django_admin_log VALUES (7, '2012-05-24 09:48:22.604805-03', 1, 9, '8', 'Grêmio - Bahia', 2, 'Changed campeonato and datajogo.');
+INSERT INTO django_admin_log VALUES (8, '2012-05-24 09:48:32.848451-03', 1, 9, '5', 'Santos - Vélez Sarsfield', 2, 'Changed campeonato and datajogo.');
+INSERT INTO django_admin_log VALUES (9, '2012-05-24 09:48:42.314403-03', 1, 9, '3', 'Corinthians - Vasco da Gama', 2, 'Changed campeonato and datajogo.');
+INSERT INTO django_admin_log VALUES (10, '2012-05-24 09:48:52.993315-03', 1, 9, '4', 'Fluminense - Boca Juniors', 2, 'Changed campeonato and datajogo.');
+INSERT INTO django_admin_log VALUES (11, '2012-05-24 09:49:03.886087-03', 1, 9, '6', 'Palmeiras - Atlético Paranaense', 2, 'Changed campeonato and datajogo.');
+INSERT INTO django_admin_log VALUES (12, '2012-05-24 09:49:13.257298-03', 1, 9, '7', 'Goiás - São Paulo', 2, 'Changed campeonato and datajogo.');
+INSERT INTO django_admin_log VALUES (13, '2012-05-25 08:30:45.857991-03', 1, 9, '5', 'Santos - Vélez Sarsfield', 2, 'Changed resultadoprimeirotime and resultadosegundotime.');
+INSERT INTO django_admin_log VALUES (14, '2012-05-25 08:31:41.792572-03', 1, 9, '8', 'Grêmio - Bahia', 2, 'Changed resultadoprimeirotime and resultadosegundotime.');
+INSERT INTO django_admin_log VALUES (15, '2012-05-25 08:47:07.525056-03', 1, 7, '26', 'Internacional', 1, '');
+INSERT INTO django_admin_log VALUES (16, '2012-05-25 08:47:20.251643-03', 1, 7, '27', 'Sport', 1, '');
+INSERT INTO django_admin_log VALUES (17, '2012-05-25 08:48:31.996821-03', 1, 9, '1', 'Flamengo - Internacional', 1, '');
+INSERT INTO django_admin_log VALUES (18, '2012-05-25 08:49:12.038435-03', 1, 9, '2', 'Santos - Sport', 1, '');
+INSERT INTO django_admin_log VALUES (19, '2012-05-25 08:50:31.641296-03', 1, 9, '10', 'São Paulo - Bahia', 1, '');
+INSERT INTO django_admin_log VALUES (20, '2012-05-25 08:50:56.920532-03', 1, 7, '28', 'Atlético Mineiro', 1, '');
+INSERT INTO django_admin_log VALUES (21, '2012-05-25 08:51:54.239973-03', 1, 9, '11', 'Atlético Mineiro - Corinthians', 1, '');
+INSERT INTO django_admin_log VALUES (22, '2012-05-25 08:52:10.56593-03', 1, 9, '12', 'Grêmio - Palmeiras', 1, '');
+INSERT INTO django_admin_log VALUES (23, '2012-05-25 09:01:15.793556-03', 1, 7, '29', 'Boa Esporte Clube', 1, '');
+INSERT INTO django_admin_log VALUES (24, '2012-05-25 09:01:58.062447-03', 1, 9, '13', 'Guarani - Boa Esporte Clube', 1, '');
+INSERT INTO django_admin_log VALUES (25, '2012-05-25 09:06:02.621861-03', 1, 9, '14', 'Portuguesa - Vasco da Gama', 1, '');
+INSERT INTO django_admin_log VALUES (26, '2012-05-28 08:02:17.73235-03', 1, 9, '1', 'Flamengo - Internacional', 2, 'Changed resultadoprimeirotime and resultadosegundotime.');
+INSERT INTO django_admin_log VALUES (27, '2012-05-28 08:02:28.538231-03', 1, 9, '2', 'Santos - Sport', 2, 'Changed resultadoprimeirotime and resultadosegundotime.');
+INSERT INTO django_admin_log VALUES (28, '2012-05-28 08:02:38.118275-03', 1, 9, '10', 'São Paulo - Bahia', 2, 'Changed resultadoprimeirotime and resultadosegundotime.');
+INSERT INTO django_admin_log VALUES (29, '2012-05-28 08:02:47.573405-03', 1, 9, '11', 'Atlético Mineiro - Corinthians', 2, 'Changed resultadoprimeirotime and resultadosegundotime.');
+INSERT INTO django_admin_log VALUES (30, '2012-05-28 08:02:57.585813-03', 1, 9, '12', 'Grêmio - Palmeiras', 2, 'Changed resultadoprimeirotime and resultadosegundotime.');
+INSERT INTO django_admin_log VALUES (31, '2012-05-28 08:03:13.898689-03', 1, 9, '14', 'Portuguesa - Vasco da Gama', 2, 'Changed resultadoprimeirotime and resultadosegundotime.');
+INSERT INTO django_admin_log VALUES (32, '2012-05-28 08:04:37.922691-03', 1, 9, '13', 'Guarani - Boa Esporte Clube', 2, 'Changed resultadoprimeirotime and resultadosegundotime.');
+INSERT INTO django_admin_log VALUES (33, '2012-05-28 09:15:01.709432-03', 1, 10, '11', 'Murilo Mazza', 1, '');
+INSERT INTO django_admin_log VALUES (34, '2012-05-28 09:41:23.589837-03', 1, 8, '7', 'Amistoso - Seleções', 1, '');
+INSERT INTO django_admin_log VALUES (35, '2012-05-28 09:41:34.058979-03', 1, 8, '8', 'Eurocopa', 1, '');
+INSERT INTO django_admin_log VALUES (36, '2012-05-29 13:35:30.827556-03', 1, 7, '30', 'Seleção Brasileira', 1, '');
+INSERT INTO django_admin_log VALUES (37, '2012-05-29 13:35:47.277801-03', 1, 7, '31', 'Joinville', 1, '');
+INSERT INTO django_admin_log VALUES (38, '2012-05-29 13:36:22.493993-03', 1, 7, '32', 'Estados Unidos', 1, '');
+INSERT INTO django_admin_log VALUES (39, '2012-05-29 13:36:35.401694-03', 1, 7, '30', 'Brasil', 2, 'Changed nome.');
+INSERT INTO django_admin_log VALUES (40, '2012-05-29 13:37:19.616194-03', 1, 9, '15', 'Joinville None x None Guarani', 1, '');
+INSERT INTO django_admin_log VALUES (41, '2012-05-29 13:40:49.030949-03', 1, 9, '16', 'Brasil None x None Estados Unidos', 1, '');
+INSERT INTO django_admin_log VALUES (42, '2012-05-30 08:19:46.678233-03', 1, 9, '15', 'Joinville 2 x 0 Guarani', 2, 'Changed resultadoprimeirotime and resultadosegundotime.');
+
+
+--
+-- TOC entry 2072 (class 0 OID 36978)
+-- Dependencies: 174
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: bolao
+--
+
+INSERT INTO django_content_type VALUES (1, 'permission', 'auth', 'permission');
+INSERT INTO django_content_type VALUES (2, 'group', 'auth', 'group');
+INSERT INTO django_content_type VALUES (3, 'user', 'auth', 'user');
+INSERT INTO django_content_type VALUES (4, 'content type', 'contenttypes', 'contenttype');
+INSERT INTO django_content_type VALUES (5, 'session', 'sessions', 'session');
+INSERT INTO django_content_type VALUES (6, 'site', 'sites', 'site');
+INSERT INTO django_content_type VALUES (7, 'time', 'apostas', 'time');
+INSERT INTO django_content_type VALUES (8, 'campeonato', 'apostas', 'campeonato');
+INSERT INTO django_content_type VALUES (9, 'jogo', 'apostas', 'jogo');
+INSERT INTO django_content_type VALUES (10, 'usuario', 'apostas', 'usuario');
+INSERT INTO django_content_type VALUES (11, 'aposta', 'apostas', 'aposta');
+INSERT INTO django_content_type VALUES (12, 'log entry', 'admin', 'logentry');
+
+
+--
+-- TOC entry 2073 (class 0 OID 36991)
+-- Dependencies: 175
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: bolao
+--
+
+INSERT INTO django_session VALUES ('bef0e99288052031402423185c492bbb', 'YzQzODJhNmFjZDc5NGYyZjc0MDFiZmUwZTc0MWFmY2YyYTUzYTkzNzqAAn1xAS4=
+', '2012-06-04 13:05:26.386387-03');
+INSERT INTO django_session VALUES ('45861c6ac7da3ba3057e8cbd6c286b6a', 'NGY4NjYzMjNjMGY0OGM1OGU0ZjcxZDA3ZTU4NDIwNDM0MTA5M2FhYzqAAn1xAShVEl9hdXRoX3Vz
+ZXJfYmFja2VuZHECVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZHED
+VQ1fYXV0aF91c2VyX2lkcQRLAnUu
+', '2012-06-04 14:09:48.930118-03');
+INSERT INTO django_session VALUES ('cb534543ed32d6dc44f6c40b90649767', 'YzQzODJhNmFjZDc5NGYyZjc0MDFiZmUwZTc0MWFmY2YyYTUzYTkzNzqAAn1xAS4=
+', '2012-06-05 09:22:48.767831-03');
+INSERT INTO django_session VALUES ('f53834823ca17aa413a6634b288c78b7', 'MzZhNmVmNzVjNDRlMTc1NGY4NjBhYjQ5YjU5Y2JkNzFjOWNlN2NiYTqAAn1xAShVEl9hdXRoX3Vz
+ZXJfYmFja2VuZHECVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZHED
+VQ1fYXV0aF91c2VyX2lkcQRLAXUu
+', '2012-06-07 09:45:02.276562-03');
+INSERT INTO django_session VALUES ('a89d075c99f014b912dc3e5f939e65b4', 'YzQzODJhNmFjZDc5NGYyZjc0MDFiZmUwZTc0MWFmY2YyYTUzYTkzNzqAAn1xAS4=
+', '2012-06-08 09:07:03.945883-03');
+INSERT INTO django_session VALUES ('0682a36920219d6b3eb0b7266404812f', 'YzQzODJhNmFjZDc5NGYyZjc0MDFiZmUwZTc0MWFmY2YyYTUzYTkzNzqAAn1xAS4=
+', '2012-06-11 09:41:46.79374-03');
+INSERT INTO django_session VALUES ('eb0623444d3af4eba72d9dc78ca871a8', 'YzQzODJhNmFjZDc5NGYyZjc0MDFiZmUwZTc0MWFmY2YyYTUzYTkzNzqAAn1xAS4=
+', '2012-06-12 13:58:59.550454-03');
+INSERT INTO django_session VALUES ('dfc37ecd060b9f6455b1d387e3115be9', 'YzQzODJhNmFjZDc5NGYyZjc0MDFiZmUwZTc0MWFmY2YyYTUzYTkzNzqAAn1xAS4=
+', '2012-06-13 08:20:01.802096-03');
+
+
+--
+-- TOC entry 2074 (class 0 OID 37001)
+-- Dependencies: 177
+-- Data for Name: django_site; Type: TABLE DATA; Schema: public; Owner: bolao
+--
+
+INSERT INTO django_site VALUES (1, 'example.com', 'example.com');
+
+
+--
+-- TOC entry 2077 (class 0 OID 37028)
+-- Dependencies: 183
+-- Data for Name: jogo; Type: TABLE DATA; Schema: public; Owner: bolao
+--
+
+INSERT INTO jogo VALUES (3, 6, 1, 20, 0, '2012-05-21', true, 3, '2012-05-23');
+INSERT INTO jogo VALUES (4, 11, 1, 4, 1, '2012-05-21', true, 3, '2012-05-23');
+INSERT INTO jogo VALUES (6, 14, 2, 2, 0, '2012-05-21', true, 4, '2012-05-23');
+INSERT INTO jogo VALUES (7, 12, 2, 19, 2, '2012-05-21', true, 4, '2012-05-23');
+INSERT INTO jogo VALUES (8, 24, 2, 23, 0, '2012-05-22', true, 4, '2012-05-24');
+INSERT INTO jogo VALUES (5, 17, 1, 21, 0, '2012-05-21', true, 3, '2012-05-24');
+INSERT INTO jogo VALUES (1, 10, 3, 26, 3, '2012-05-25', true, 5, '2012-05-26');
+INSERT INTO jogo VALUES (2, 17, 0, 27, 0, '2012-05-25', true, 5, '2012-05-27');
+INSERT INTO jogo VALUES (10, 19, 1, 23, 0, '2012-05-25', true, 5, '2012-05-27');
+INSERT INTO jogo VALUES (11, 28, 1, 6, 0, '2012-05-25', true, 5, '2012-05-27');
+INSERT INTO jogo VALUES (12, 24, 1, 14, 0, '2012-05-25', true, 5, '2012-05-27');
+INSERT INTO jogo VALUES (13, 13, 0, 29, 0, '2012-05-25', true, 5, '2012-05-25');
+INSERT INTO jogo VALUES (14, 16, 0, 20, 1, '2012-05-25', true, 5, '2012-05-26');
+INSERT INTO jogo VALUES (16, 30, NULL, 32, NULL, '2012-05-29', false, 7, '2012-05-30');
+INSERT INTO jogo VALUES (15, 31, 2, 13, 0, '2012-05-29', true, 5, '2012-05-29');
+
+
+--
+-- TOC entry 2075 (class 0 OID 37009)
+-- Dependencies: 179
+-- Data for Name: time; Type: TABLE DATA; Schema: public; Owner: bolao
+--
+
+INSERT INTO "time" VALUES (1, 'Atlético Goianiense', 'atletico-goianiense.gif');
+INSERT INTO "time" VALUES (2, 'Atlético Paranaense', 'atletico-paranaense.jpg');
+INSERT INTO "time" VALUES (3, 'Avaí', 'avai.gif');
+INSERT INTO "time" VALUES (4, 'Boca Juniors', 'boca-juniors.gif');
+INSERT INTO "time" VALUES (5, 'Botafogo RJ', 'botafogo.gif');
+INSERT INTO "time" VALUES (6, 'Corinthians', 'corinthians.jpg');
+INSERT INTO "time" VALUES (7, 'Coritiba', 'coritiba.jpg');
+INSERT INTO "time" VALUES (8, 'Criciúma', 'criciuma.jpg');
+INSERT INTO "time" VALUES (9, 'Figueirense', 'figueirense.gif');
+INSERT INTO "time" VALUES (10, 'Flamengo', 'flamento.gif');
+INSERT INTO "time" VALUES (11, 'Fluminense', 'fluminense.gif');
+INSERT INTO "time" VALUES (12, 'Goiás', 'goias.gif');
+INSERT INTO "time" VALUES (13, 'Guarani', 'guarani.gif');
+INSERT INTO "time" VALUES (14, 'Palmeiras', 'palmeiras.gif');
+INSERT INTO "time" VALUES (15, 'Ponte Preta', 'ponte-preta.gif');
+INSERT INTO "time" VALUES (16, 'Portuguesa', 'portuguesa.jpg');
+INSERT INTO "time" VALUES (17, 'Santos', 'santos.gif');
+INSERT INTO "time" VALUES (18, 'São Caetano', 'sao-caetano.gif');
+INSERT INTO "time" VALUES (19, 'São Paulo', 'sao-paulo.gif');
+INSERT INTO "time" VALUES (20, 'Vasco da Gama', 'vasco.gif');
+INSERT INTO "time" VALUES (21, 'Vélez Sarsfield', 'velez-sarsfield.gif');
+INSERT INTO "time" VALUES (23, 'Bahia', 'bahia.gif');
+INSERT INTO "time" VALUES (24, 'Grêmio', 'gremio-rs.jpg');
+INSERT INTO "time" VALUES (26, 'Internacional', 'internacional.jpg');
+INSERT INTO "time" VALUES (27, 'Sport', 'sport.gif');
+INSERT INTO "time" VALUES (28, 'Atlético Mineiro', 'atletico-mg.gif');
+INSERT INTO "time" VALUES (29, 'Boa Esporte Clube', 'boa-mg.png');
+INSERT INTO "time" VALUES (31, 'Joinville', 'joinville.gif');
+INSERT INTO "time" VALUES (32, 'Estados Unidos', 'usa.gif');
+INSERT INTO "time" VALUES (30, 'Brasil', 'brasil.jpg');
+
+
+--
+-- TOC entry 2078 (class 0 OID 37051)
+-- Dependencies: 185
+-- Data for Name: usuario; Type: TABLE DATA; Schema: public; Owner: bolao
+--
+
+INSERT INTO usuario VALUES (8, 'Rodolfo De Nadai', 'rdenadai@ima.sp.gov.br', 'rdenadai', 133);
+INSERT INTO usuario VALUES (1, 'Daniel Paixão Fontes', 'dpaixao@ima.sp.gov.br', 'dpaixao', 166);
+INSERT INTO usuario VALUES (3, 'André Castro', 'acastro@ima.sp.gov.br', 'acastro', 166);
+INSERT INTO usuario VALUES (5, 'Wilson Chaud', 'wchaud@ima.sp.gov.br', 'wchaud', 180);
+INSERT INTO usuario VALUES (11, 'Murilo Mazza', 'murilo.mazza@ima.sp.gov.br', 'mmazza', 0);
+INSERT INTO usuario VALUES (4, 'Eraldo Ribas Junior', 'eribas@ima.sp.gov.br', 'eribas', 197);
+INSERT INTO usuario VALUES (2, 'Gabriel Oliveira', 'goliveira@ima.sp.gov.br', 'goliveira', 192);
+INSERT INTO usuario VALUES (9, 'Frank Inoue', 'finoue@ima.sp.gov.br', 'finoue', 122);
+INSERT INTO usuario VALUES (6, 'Mauro Escobar', 'mescobar@ima.sp.gov.br', 'mescobar', 142);
+INSERT INTO usuario VALUES (7, 'Matheus Pereira Santos', 'mpsantos@ima.sp.gov.br', 'mpsantos', 109);
+
+
+--
+-- TOC entry 2046 (class 2606 OID 37069)
+-- Dependencies: 187 187
+-- Name: aposta_pkey; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY aposta
+    ADD CONSTRAINT aposta_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2003 (class 2606 OID 36920)
+-- Dependencies: 166 166
+-- Name: auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- TOC entry 1998 (class 2606 OID 36905)
+-- Dependencies: 164 164 164
+-- Name: auth_group_permissions_group_id_permission_id_key; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_key UNIQUE (group_id, permission_id);
+
+
+--
+-- TOC entry 2001 (class 2606 OID 36903)
+-- Dependencies: 164 164
+-- Name: auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2005 (class 2606 OID 36918)
+-- Dependencies: 166 166
+-- Name: auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1993 (class 2606 OID 36895)
+-- Dependencies: 162 162 162
+-- Name: auth_permission_content_type_id_codename_key; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_key UNIQUE (content_type_id, codename);
+
+
+--
+-- TOC entry 1995 (class 2606 OID 36893)
+-- Dependencies: 162 162
+-- Name: auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2014 (class 2606 OID 36948)
+-- Dependencies: 170 170
+-- Name: auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2017 (class 2606 OID 36950)
+-- Dependencies: 170 170 170
+-- Name: auth_user_groups_user_id_group_id_key; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_key UNIQUE (user_id, group_id);
+
+
+--
+-- TOC entry 2019 (class 2606 OID 36963)
+-- Dependencies: 172 172
+-- Name: auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2008 (class 2606 OID 36933)
+-- Dependencies: 168 168
+-- Name: auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2011 (class 2606 OID 36935)
+-- Dependencies: 168 168 168
+-- Name: auth_user_user_permissions_user_id_permission_id_key; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_key UNIQUE (user_id, permission_id);
+
+
+--
+-- TOC entry 2021 (class 2606 OID 36965)
+-- Dependencies: 172 172
+-- Name: auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- TOC entry 2034 (class 2606 OID 37025)
+-- Dependencies: 181 181
+-- Name: campeonato_pkey; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY campeonato
+    ADD CONSTRAINT campeonato_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2050 (class 2606 OID 37091)
+-- Dependencies: 189 189
+-- Name: django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2023 (class 2606 OID 36985)
+-- Dependencies: 174 174 174
+-- Name: django_content_type_app_label_model_key; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_key UNIQUE (app_label, model);
+
+
+--
+-- TOC entry 2025 (class 2606 OID 36983)
+-- Dependencies: 174 174
+-- Name: django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2028 (class 2606 OID 36998)
+-- Dependencies: 175 175
+-- Name: django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- TOC entry 2030 (class 2606 OID 37006)
+-- Dependencies: 177 177
+-- Name: django_site_pkey; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY django_site
+    ADD CONSTRAINT django_site_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2037 (class 2606 OID 37033)
+-- Dependencies: 183 183
+-- Name: jogo_pkey; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY jogo
+    ADD CONSTRAINT jogo_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2032 (class 2606 OID 37017)
+-- Dependencies: 179 179
+-- Name: time_pkey; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY "time"
+    ADD CONSTRAINT time_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2041 (class 2606 OID 37061)
+-- Dependencies: 185 185
+-- Name: usuario_login_key; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY usuario
+    ADD CONSTRAINT usuario_login_key UNIQUE (login);
+
+
+--
+-- TOC entry 2043 (class 2606 OID 37059)
+-- Dependencies: 185 185
+-- Name: usuario_pkey; Type: CONSTRAINT; Schema: public; Owner: bolao; Tablespace: 
+--
+
+ALTER TABLE ONLY usuario
+    ADD CONSTRAINT usuario_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2044 (class 1259 OID 37113)
+-- Dependencies: 187
+-- Name: aposta_jogo_id; Type: INDEX; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE INDEX aposta_jogo_id ON aposta USING btree (jogo_id);
+
+
+--
+-- TOC entry 2047 (class 1259 OID 37114)
+-- Dependencies: 187
+-- Name: aposta_usuario_id; Type: INDEX; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE INDEX aposta_usuario_id ON aposta USING btree (usuario_id);
+
+
+--
+-- TOC entry 1996 (class 1259 OID 37103)
+-- Dependencies: 164
+-- Name: auth_group_permissions_group_id; Type: INDEX; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_group_id ON auth_group_permissions USING btree (group_id);
+
+
+--
+-- TOC entry 1999 (class 1259 OID 37104)
+-- Dependencies: 164
+-- Name: auth_group_permissions_permission_id; Type: INDEX; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE INDEX auth_group_permissions_permission_id ON auth_group_permissions USING btree (permission_id);
+
+
+--
+-- TOC entry 1991 (class 1259 OID 37102)
+-- Dependencies: 162
+-- Name: auth_permission_content_type_id; Type: INDEX; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE INDEX auth_permission_content_type_id ON auth_permission USING btree (content_type_id);
+
+
+--
+-- TOC entry 2012 (class 1259 OID 37108)
+-- Dependencies: 170
+-- Name: auth_user_groups_group_id; Type: INDEX; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_group_id ON auth_user_groups USING btree (group_id);
+
+
+--
+-- TOC entry 2015 (class 1259 OID 37107)
+-- Dependencies: 170
+-- Name: auth_user_groups_user_id; Type: INDEX; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE INDEX auth_user_groups_user_id ON auth_user_groups USING btree (user_id);
+
+
+--
+-- TOC entry 2006 (class 1259 OID 37106)
+-- Dependencies: 168
+-- Name: auth_user_user_permissions_permission_id; Type: INDEX; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id ON auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- TOC entry 2009 (class 1259 OID 37105)
+-- Dependencies: 168
+-- Name: auth_user_user_permissions_user_id; Type: INDEX; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE INDEX auth_user_user_permissions_user_id ON auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- TOC entry 2048 (class 1259 OID 37116)
+-- Dependencies: 189
+-- Name: django_admin_log_content_type_id; Type: INDEX; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_content_type_id ON django_admin_log USING btree (content_type_id);
+
+
+--
+-- TOC entry 2051 (class 1259 OID 37115)
+-- Dependencies: 189
+-- Name: django_admin_log_user_id; Type: INDEX; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE INDEX django_admin_log_user_id ON django_admin_log USING btree (user_id);
+
+
+--
+-- TOC entry 2026 (class 1259 OID 37109)
+-- Dependencies: 175
+-- Name: django_session_expire_date; Type: INDEX; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE INDEX django_session_expire_date ON django_session USING btree (expire_date);
+
+
+--
+-- TOC entry 2035 (class 1259 OID 37112)
+-- Dependencies: 183
+-- Name: jogo_campeonato_id; Type: INDEX; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE INDEX jogo_campeonato_id ON jogo USING btree (campeonato_id);
+
+
+--
+-- TOC entry 2038 (class 1259 OID 37110)
+-- Dependencies: 183
+-- Name: jogo_primeirotime_id; Type: INDEX; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE INDEX jogo_primeirotime_id ON jogo USING btree (primeirotime_id);
+
+
+--
+-- TOC entry 2039 (class 1259 OID 37111)
+-- Dependencies: 183
+-- Name: jogo_segundotime_id; Type: INDEX; Schema: public; Owner: bolao; Tablespace: 
+--
+
+CREATE INDEX jogo_segundotime_id ON jogo USING btree (segundotime_id);
+
+
+--
+-- TOC entry 2062 (class 2606 OID 37070)
+-- Dependencies: 2036 183 187
+-- Name: aposta_jogo_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY aposta
+    ADD CONSTRAINT aposta_jogo_id_fkey FOREIGN KEY (jogo_id) REFERENCES jogo(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2063 (class 2606 OID 37075)
+-- Dependencies: 187 2042 185
+-- Name: aposta_usuario_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY aposta
+    ADD CONSTRAINT aposta_usuario_id_fkey FOREIGN KEY (usuario_id) REFERENCES usuario(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2053 (class 2606 OID 36906)
+-- Dependencies: 1994 164 162
+-- Name: auth_group_permissions_permission_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_permission_id_fkey FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2057 (class 2606 OID 36951)
+-- Dependencies: 170 166 2004
+-- Name: auth_user_groups_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_fkey FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2055 (class 2606 OID 36936)
+-- Dependencies: 1994 168 162
+-- Name: auth_user_user_permissions_permission_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_permission_id_fkey FOREIGN KEY (permission_id) REFERENCES auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2052 (class 2606 OID 36986)
+-- Dependencies: 162 174 2024
+-- Name: content_type_id_refs_id_728de91f; Type: FK CONSTRAINT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY auth_permission
+    ADD CONSTRAINT content_type_id_refs_id_728de91f FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2065 (class 2606 OID 37097)
+-- Dependencies: 189 2024 174
+-- Name: django_admin_log_content_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_fkey FOREIGN KEY (content_type_id) REFERENCES django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2064 (class 2606 OID 37092)
+-- Dependencies: 189 172 2018
+-- Name: django_admin_log_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2054 (class 2606 OID 36921)
+-- Dependencies: 2004 166 164
+-- Name: group_id_refs_id_3cea63fe; Type: FK CONSTRAINT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY auth_group_permissions
+    ADD CONSTRAINT group_id_refs_id_3cea63fe FOREIGN KEY (group_id) REFERENCES auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2061 (class 2606 OID 37044)
+-- Dependencies: 183 181 2033
+-- Name: jogo_campeonato_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY jogo
+    ADD CONSTRAINT jogo_campeonato_id_fkey FOREIGN KEY (campeonato_id) REFERENCES campeonato(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2059 (class 2606 OID 37034)
+-- Dependencies: 179 2031 183
+-- Name: jogo_primeirotime_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY jogo
+    ADD CONSTRAINT jogo_primeirotime_id_fkey FOREIGN KEY (primeirotime_id) REFERENCES "time"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2060 (class 2606 OID 37039)
+-- Dependencies: 2031 183 179
+-- Name: jogo_segundotime_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY jogo
+    ADD CONSTRAINT jogo_segundotime_id_fkey FOREIGN KEY (segundotime_id) REFERENCES "time"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2058 (class 2606 OID 36971)
+-- Dependencies: 172 2018 170
+-- Name: user_id_refs_id_7ceef80f; Type: FK CONSTRAINT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY auth_user_groups
+    ADD CONSTRAINT user_id_refs_id_7ceef80f FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2056 (class 2606 OID 36966)
+-- Dependencies: 168 2018 172
+-- Name: user_id_refs_id_dfbab7d; Type: FK CONSTRAINT; Schema: public; Owner: bolao
+--
+
+ALTER TABLE ONLY auth_user_user_permissions
+    ADD CONSTRAINT user_id_refs_id_dfbab7d FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 2085 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2012-05-30 13:58:50 BRT
+
+--
+-- PostgreSQL database dump complete
+--
+

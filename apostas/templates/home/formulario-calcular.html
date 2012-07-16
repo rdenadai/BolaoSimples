@@ -1,0 +1,60 @@
+{% load i18n %}
+{% spaceless %}
+<!DOCTYPE html>
+<html xmlns:fb="http://www.facebook.com/2008/fbml">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="author" content="Rodolfo De Nadai">
+		<meta name="description" content="Interface">
+		<meta name="keywords" content="sites, web, desenvolvimento, interfaces">
+		<meta http-equiv="content-language" content="pt">
+		<meta name="robots" content="noindex,follow">
+		<link href="{{ STATIC_URL }}img/favicon.ico" rel="SHORTCUT ICON" />
+
+		{% load compress %}
+		{% compress css %}
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/default.css" />
+		<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}js/jWindow/default.css" />
+		{% endcompress %}
+		
+		<title>{% trans "Big Cake Centopéia" %}</title>
+	</head>
+	<body>
+		<div id="conteudo">
+			<div class="internDiv">
+				{% include 'home/header.html' %}
+				<div class="conteudo-parent">
+					<div id="conteudo-interno">
+						<form action="../calcular/" method="POST" enctype="multipart/form-data">
+							<table class="formated" align="center" >
+							{% for jogo in jogos %}
+								<tr>
+									<td style="width:20px;"><input type="checkbox" name="jogo" value="{{ jogo.id  }}" /></td>
+									<td><strong>{{ jogo.primeirotime.nome }}</strong> x <strong>{{ jogo.segundotime.nome }}</strong></td>
+									<td>{{ jogo.datajogo|date:"d/m/Y" }}</td>
+								</tr>
+							{% endfor %}
+								<tr>
+									<td colspan="3" align="center">
+										<button id="btnSubmitCalcular" name="btnSubmitCalcular" class="cupid-green" style="float:center;">Calcular</button>
+									</td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</div>
+				{% include 'home/footer.html' %}
+			</div>
+		</div>
+	</body>
+	
+	{% load compress %}
+	{% compress js %}
+	<script type="text/javascript" language="javascript" src="{{ STATIC_URL }}js/jquery/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" language="javascript" src="{{ STATIC_URL }}js/jquery/jquery.maskedinput.js"></script>
+	<script type="text/javascript" language="javascript" src="{{ STATIC_URL }}js/jWindow/jWindow.js"></script>
+	<script type="text/javascript" language="javascript" src="{{ STATIC_URL }}js/default.js"></script>
+	{% endcompress %}
+</html>
+{% endspaceless %}

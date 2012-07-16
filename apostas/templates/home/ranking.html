@@ -1,0 +1,24 @@
+{% load i18n %}
+{% spaceless %}
+<div id="ranking">
+	<table class="formated" align="center">
+		<tr>
+			<td colspan="3" class="tableTitle">
+				Ranking
+			</td>
+		</tr>
+	{% for usuario in usuarios %}
+		<tr style="background-color:{% cycle 'white' '#f2f2f2' %}">
+			<td style="text-align:center;">
+				{{ usuario.ordem }}
+			</td>
+			<td>
+				<strong>{{ usuario.nome }}</strong>
+			</td>
+			<td style="text-align:center;">
+				{{ usuario.ranking }} pt(s)
+			</td>
+	{% endfor %}
+	</table>
+</div>
+{% endspaceless %}
