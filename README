@@ -1,0 +1,11 @@
+Sistema simples feito em django para você se divertir com seus amigos durante muito tempo.
+
+O objetivo era ser simples e rápido!
+
+Para usar o sistema deve-se instalar o django (https://www.djangoproject.com/), descompactar os fontes em alguma pasta e configurar o apache para acessar os arquivos. 
+
+Após a instalação do django, você deve realizar o download via pip ou easy_install do django-compressor (http://django_compressor.readthedocs.org/en/latest/#).
+
+O banco de dados utilizado inicialmente é o postgresql, entretanto como django é multibanco, fique a vontade para utilizar o de seu gosto pessoal!
+
+falowaer
