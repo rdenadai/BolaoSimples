@@ -1,33 +1,25 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
+from django.conf.urls.static import static
 
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
 from django.conf import settings
-import apostas
+from apostas import views as ap_views
 
-urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'bolao.views.home', name='home'),
-    # url(r'^bolao/', include('bolao.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
-    (r'^media/(.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
-    # Sistema
-    ('^$', 'apostas.views.index'),
-    ('^jogo/', 'apostas.views.jogo'),
-    ('^ranking/', 'apostas.views.ranking'),
-    ('^pontuacao/', 'apostas.views.pontuacao'),
-    ('^apostas/', 'apostas.views.apostas'),
-    ('^formulario/', 'apostas.views.formulario'),
-    ('^salvar/', 'apostas.views.salvar'),
-    ('^admin-calcular/', 'apostas.views.formCalcular'),
-    ('^calcular/', 'apostas.views.calcular'),
+urlpatterns = [
     # Grapelli
-    (r'^grappelli/', include('grappelli.urls')),
-)
+    url(r'^grappelli/', include('grappelli.urls')),  # grappelli URLS
+    # Admin
+    url(r'^admin/', include(admin.site.urls)),  # admin site
+    # Sistema
+    url('^$', ap_views.index),
+    url('^jogo/', ap_views.jogo),
+    url('^ranking/', ap_views.ranking),
+    url('^pontuacao/', ap_views.pontuacao),
+    url('^apostas/', ap_views.apostas),
+    url('^formulario/', ap_views.formulario),
+    url('^salvar/', ap_views.salvar),
+    url('^admin-calcular/', ap_views.form_calcular),
+    url('^calcular/', ap_views.calcular),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

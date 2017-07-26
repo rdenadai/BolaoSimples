@@ -1,9 +1,19 @@
-INSERT INTO campeonato VALUES (3, 'Libertadores');
-INSERT INTO campeonato VALUES (4, 'Copa do Brasil');
-INSERT INTO campeonato VALUES (5, 'Brasileirão');
-INSERT INTO campeonato VALUES (6, 'Campeonato Paulista');
-INSERT INTO campeonato VALUES (7, 'Amistoso - Seleções');
-INSERT INTO campeonato VALUES (8, 'Eurocopa');
+INSERT INTO campeonato VALUES (1, 'Campeonato Paulista');
+INSERT INTO campeonato VALUES (2, 'Campeonato Mineiro');
+INSERT INTO campeonato VALUES (3, 'Campeonato Carioca');
+INSERT INTO campeonato VALUES (4, 'Campeonato Gaúcho');
+INSERT INTO campeonato VALUES (5, 'Campeonato Goiano');
+INSERT INTO campeonato VALUES (6, 'Libertadores');
+INSERT INTO campeonato VALUES (7, 'Copa do Brasil');
+INSERT INTO campeonato VALUES (8, 'Copa Sul-Americana');
+INSERT INTO campeonato VALUES (9, 'Brasileirão Série A');
+INSERT INTO campeonato VALUES (10, 'Brasileirão Série B');
+INSERT INTO campeonato VALUES (11, 'Brasileirão Série C');
+INSERT INTO campeonato VALUES (12, 'Copa das Confederações');
+INSERT INTO campeonato VALUES (13, 'Eliminatórias Copa do Mundo');
+INSERT INTO campeonato VALUES (14, 'Copa do Mundo');
+INSERT INTO campeonato VALUES (15, 'Amistoso - Seleções');
+INSERT INTO campeonato VALUES (16, 'Eurocopa');
 
 INSERT INTO "time" VALUES (1, 'Atlético Goianiense', 'atletico-goianiense.gif');
 INSERT INTO "time" VALUES (2, 'Atlético Paranaense', 'atletico-paranaense.jpg');

@@ -1,135 +1,157 @@
 # -*- coding: utf-8 -*-
-# Create your views here.
+
+import json
+
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.db import connection, transaction
-from models import Time, Jogo, Usuario, Aposta
+from .models import Time, Jogo, Usuario, Aposta
 from classes.serializer import Serialize
 from datetime import datetime
 
 # Traducao
 from django.utils.translation import gettext as _trans, get_language, activate as activateLanguage
 
+
 def retorna(message=None):
     if not message:
-        message = '{success:false, result: { reason: "',_trans("Dados inválidos ou incorretos!"),'" } }'
-    return HttpResponse(message, mimetype='text/javascript')
+        message = {
+            'success': False,
+            'result': {
+                'reason': _trans("Dados inválidos ou incorretos!")
+            }
+        }
+    return HttpResponse(json.dumps(message), content_type='text/javascript')
+
 
 def index(request):
-    return render_to_response('home/index.html', { 'language':get_language(), 'STATIC_URL':settings.STATIC_URL })
+    return render_to_response('home/index.html', {'language': get_language(), 'STATIC_URL': settings.STATIC_URL})
+
 
 def jogo(request):
     jogos = Jogo.objects.select_related().all().exclude(calculado=True)
     for jogo in jogos:
-        apostas = Aposta.objects.filter(jogo__pk=jogo.id, jogo__calculado=False).order_by("usuario__nome")
-        jogo.apostas = apostas
-    return render_to_response('home/jogo.html', { 'language':get_language(), 'STATIC_URL':settings.STATIC_URL, 'jogos':jogos })
+        jogo.apostas = Aposta.objects.filter(jogo__pk=jogo.id, jogo__calculado=False).order_by("usuario__nome")
+    return render_to_response('home/jogo.html',
+                              {'language': get_language(), 'STATIC_URL': settings.STATIC_URL, 'jogos': jogos})
+
 
 def ranking(request):
-	usuarios = Usuario.objects.all().order_by("-ranking")
-	i = 1
-	for usuario in usuarios:
-		usuario.ordem = i
-		i += 1
-	return render_to_response('home/ranking.html', { 'language':get_language(), 'STATIC_URL':settings.STATIC_URL, 'usuarios':usuarios })
+    usuarios = Usuario.objects.all().order_by("-ranking")
+    for i, usuario in enumerate(usuarios):
+        usuario.ordem = i
+    return render_to_response('home/ranking.html',
+                              {'language': get_language(), 'STATIC_URL': settings.STATIC_URL, 'usuarios': usuarios})
+
 
 def pontuacao(request):
     jogos = list(Jogo.objects.select_related().all().exclude(calculado=False))
     for jogo in jogos:
-        apostas = Aposta.objects.filter(jogo__pk=jogo.id, jogo__calculado=True).order_by("usuario__nome")
-        jogo.apostas = apostas
-    return render_to_response('home/pontuacao.html', { 'language':get_language(), 'STATIC_URL':settings.STATIC_URL, 'jogos':jogos })
+        jogo.apostas = Aposta.objects.filter(jogo__pk=jogo.id, jogo__calculado=True).order_by("usuario__nome")
+    return render_to_response('home/pontuacao.html',
+                              {'language': get_language(), 'STATIC_URL': settings.STATIC_URL, 'jogos': jogos})
+
 
 def apostas(request):
     apostas = None
     try:
-        idJogo = int(request.POST.get("idJogo", 0))
-        apostas = Aposta.objects.filter(jogo__pk=idJogo).order_by("usuario__nome")
+        id_jogo = int(request.POST.get("idJogo", 0))
+        apostas = Aposta.objects.filter(jogo__pk=id_jogo).order_by("usuario__nome")
     except ValueError:
         pass
-    return render_to_response('home/apostas.html', { 'idJogo':idJogo,'language':get_language(), 'STATIC_URL':settings.STATIC_URL, 'apostas':apostas })
+    return render_to_response('home/apostas.html',
+                              {'idJogo': id_jogo, 'language': get_language(), 'STATIC_URL': settings.STATIC_URL,
+                               'apostas': apostas})
+
 
 def formulario(request):
-    idJogo = None
+    id_jogo = None
     jogo = None
     try:
-        idJogo = int(request.POST.get("idJogo", 0))
-        jogo = Jogo.objects.select_related().get(id=idJogo)
+        id_jogo = int(request.POST.get("idJogo", 0))
+        jogo = Jogo.objects.select_related().get(id=id_jogo)
     except ValueError:
         pass
     usuarios = Usuario.objects.filter(ativo=True).order_by('nome')
-    return render_to_response('home/formulario.html', { 'language':get_language(), 'STATIC_URL':settings.STATIC_URL, 'usuarios':usuarios, 'jogo':jogo, 'idJogo':idJogo })
+    return render_to_response('home/formulario.html',
+                              {'language': get_language(), 'STATIC_URL': settings.STATIC_URL, 'usuarios': usuarios,
+                               'jogo': jogo, 'idJogo': id_jogo})
 
 
-@transaction.autocommit
+@transaction.atomic
 def salvar(request):
-    message = '{"success":false, "message":"Erro ao salvar aposta, tente novamente!"}'
+    message = {'success': False, 'message': _trans("Erro ao salvar aposta, tente novamente!")}
     try:
-        idJogo = int(request.POST.get("idJogo", 0))
-        idUsuario = int(request.POST.get("idUsuario", 0))
-        resultadoprimeirotime = int(request.POST.get("resultadoprimeirotime", 0))
-        resultadosegundotime = int(request.POST.get("resultadosegundotime", 0))
+        id_jogo = int(request.POST.get("idJogo", 0))
+        id_usuario = int(request.POST.get("idUsuario", 0))
+        resultado_primeiro_time = int(request.POST.get("resultadoprimeirotime", 0))
+        resultado_segundo_time = int(request.POST.get("resultadosegundotime", 0))
     except ValueError:
-        message = '{"success":false, "message":"Erro ao recuperar parâmetros!"}'
+        message['message'] = _trans("Erro ao recuperar parâmetros!")
     
     try:
-        existe = Aposta.objects.filter(jogo__pk=idJogo, usuario__pk=idUsuario)
+        existe = Aposta.objects.filter(jogo__pk=id_jogo, usuario__pk=id_usuario)
         if len(existe) == 0:
-            jogo = Jogo.objects.get(pk=idJogo)
-            usuario = Usuario.objects.get(pk=idUsuario)
-            aposta = Aposta(jogo=jogo, usuario=usuario, primeirotime=resultadoprimeirotime, segundotime=resultadosegundotime)
+            jogo = Jogo.objects.get(pk=id_jogo)
+            usuario = Usuario.objects.get(pk=id_usuario)
+            aposta = Aposta(jogo=jogo, usuario=usuario, primeirotime=resultado_primeiro_time,
+                            segundotime=resultado_segundo_time)
             aposta.save()
             if aposta.id > 0:
-                message = '{"success":true, "message":"Aposta salva com sucesso! Boa sorte..."}'
+                message['success'] = True
+                message['message'] = _trans("Aposta salva com sucesso! Boa sorte...")
         else:
-            message = '{"success":false, "message":"Ow maluco, vc ta tentando fazer aposta em um jogo no qual ja apostou! Prestenção retardado!"}'
+            message['message'] = _trans(
+                "Ow maluco, vc ta tentando fazer aposta em um jogo no qual ja apostou! Prestenção retardado!")
     except:
-        message = '{"success":false, "message":"Erro ao executar a operação para salvar aposta!"}'
+        message['message'] = _trans("Erro ao executar a operação para salvar aposta!")
     return retorna(message)
 
 
-def formCalcular(request):
+def form_calcular(request):
     data = datetime.now()
-    jogos = Jogo.objects.select_related().all().exclude(calculado=True).exclude(data__gt=datetime(data.year, data.month, data.day))
-    return render_to_response('home/formulario-calcular.html', { 'language':get_language(), 'STATIC_URL':settings.STATIC_URL, 'jogos':jogos })
+    jogos = Jogo.objects.select_related().all().exclude(calculado=True).exclude(
+        data__gt=datetime(data.year, data.month, data.day))
+    return render_to_response('home/formulario-calcular.html',
+                              {'language': get_language(), 'STATIC_URL': settings.STATIC_URL, 'jogos': jogos})
 
 
-@transaction.autocommit
+@transaction.atomic
 def calcular(request):
     try:
-        idJogos = request.POST.getlist('jogo')
-        for idJogo in idJogos:
-            jogo = Jogo.objects.get(pk=idJogo)
+        id_jogos = request.POST.getlist('jogo')
+        for id_jogo in id_jogos:
+            jogo = Jogo.objects.get(pk=id_jogo)
             apostas = Aposta.objects.filter(jogo=jogo)
             for aposta in apostas:
                 usuario = Usuario.objects.get(pk=aposta.usuario.id)
-                aposta1time = aposta.primeirotime
-                aposta2time = aposta.segundotime
-                jogo1time = jogo.resultadoprimeirotime
-                jogo2time = jogo.resultadosegundotime
+                aposta1_time = aposta.primeirotime
+                aposta2_time = aposta.segundotime
+                jogo1_time = jogo.resultadoprimeirotime
+                jogo2_time = jogo.resultadosegundotime
                 pts = 0
-                if jogo1time != '' and jogo2time != '':
-                    if jogo1time > jogo2time:
-                        if aposta1time > aposta2time:
+                if jogo1_time != '' and jogo2_time != '':
+                    if jogo1_time > jogo2_time:
+                        if aposta1_time > aposta2_time:
                             pts += 5
-                        if aposta1time == jogo1time:
+                        if aposta1_time == jogo1_time:
                             pts += 2
-                        if aposta2time == jogo2time:
+                        if aposta2_time == jogo2_time:
                             pts += 2
-                    elif jogo2time > jogo1time:
-                        if aposta2time > aposta1time:
+                    elif jogo2_time > jogo1_time:
+                        if aposta2_time > aposta1_time:
                             pts += 5
-                        if aposta2time == jogo2time:
+                        if aposta2_time == jogo2_time:
                             pts += 2
-                        if aposta1time == jogo1time:
+                        if aposta1_time == jogo1_time:
                             pts += 2
-                    elif jogo1time == jogo2time:
-                        if aposta1time == aposta2time:
+                    elif jogo1_time == jogo2_time:
+                        if aposta1_time == aposta2_time:
                             pts += 5
-                        if aposta1time == jogo1time:
+                        if aposta1_time == jogo1_time:
                             pts += 2
-                        if aposta2time == jogo2time:
+                        if aposta2_time == jogo2_time:
                             pts += 2
                     usuario.ranking += pts
                     usuario.save()
