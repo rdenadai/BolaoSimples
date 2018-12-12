@@ -1,4 +1,4 @@
-Django==1.11.3
+Django==1.11.15
 django-compressor==2.1.1
 django-grappelli==2.10.1
 gunicorn==19.7.1
